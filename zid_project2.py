@@ -22,7 +22,7 @@ import pandas as pd
 # Note: This module should be imported as cfg
 #
 # <COMPLETE THIS PART>
-
+import config as cfg
 
 
 # ---------------------------------------------------------------------------- 
@@ -383,6 +383,13 @@ def get_avg(df, col, year):
 
     """
     #<COMPLETE THIS PART>
+    # Get rows for the given year
+    df_year = df[df.index.year == year]
+    # Drop row with NAN value
+    values = df_year[col].dropna()
+
+    # Calculate the average
+    return values.mean()
 
 
 
