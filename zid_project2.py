@@ -1,23 +1,23 @@
 """ zid_project2.py
 
 """
-# ---------------------------------------------------------------------------- 
+# ----------------------------------------------------------------------------
 # Part 1: Read the documentation for the following methods:
 #   - pandas.DataFrame.mean
 #   - pandas.Series.add
 #   - pandas.Series.prod
 #   - pandas.Series.dropna
-# ---------------------------------------------------------------------------- 
+# ----------------------------------------------------------------------------
 
 import os
 
 import pandas as pd
 
 
-# ---------------------------------------------------------------------------- 
+# ----------------------------------------------------------------------------
 # Part 2: import the config module inside the project2 package
-# ---------------------------------------------------------------------------- 
-# Create an import statement so that the module config.py (inside the project2 
+# ----------------------------------------------------------------------------
+# Create an import statement so that the module config.py (inside the project2
 # package) is imported as "cfg"
 # Note: This module should be imported as cfg
 #
@@ -25,13 +25,13 @@ import pandas as pd
 import config as cfg
 
 
-# ---------------------------------------------------------------------------- 
+# ----------------------------------------------------------------------------
 # Part 3: Complete the read_prc_csv function
-# ---------------------------------------------------------------------------- 
+# ----------------------------------------------------------------------------
 def read_prc_csv(tic):
-    """ This function creates a data frame with the contents of a CSV file 
-    containing stock price information for a given ticker. 
-    
+    """ This function creates a data frame with the contents of a CSV file
+    containing stock price information for a given ticker.
+
     Parameters
     ----------
     tic : str
@@ -40,16 +40,16 @@ def read_prc_csv(tic):
 
     Returns
     -------
-    df 
+    df
         A Pandas data frame containing the stock price information from the CSV
         containing the stock prices for the ticker `tic`.
 
         This data frame must meet the following criteria:
-        
+
         - df.index: `DatetimeIndex` with dates, matching the dates contained in
           the CSV file. The labels in the index must be `datetime` objects.
 
-        - df.columns: each column label will be a column in the CSV file, 
+        - df.columns: each column label will be a column in the CSV file,
           with the exception of 'Date'. Column names will be formatted
           according to the `standardise_colnames` function included in the
           `project2.config.py` module.
@@ -79,7 +79,7 @@ def read_prc_csv(tic):
      -----
      - Remember that the ticker `tic` in `<tic>`_prc.csv is in lower case.
        File names in non-windows systems are case sensitive (so 'AAA.csv' and
-       'aaa.csv' are different files). 
+       'aaa.csv' are different files).
 
     """
     # <COMPLETE THIS PART>
@@ -87,12 +87,12 @@ def read_prc_csv(tic):
 
 
 
-# ---------------------------------------------------------------------------- 
+# ----------------------------------------------------------------------------
 # Part 4: Complete the mk_prc_df function
-# ---------------------------------------------------------------------------- 
+# ----------------------------------------------------------------------------
 def mk_prc_df(tickers, prc_col='adj_close'):
     """ This function creates a data frame containing price information for a
-    list of tickers and a given type of quote (e.g., open, close, ...)  
+    list of tickers and a given type of quote (e.g., open, close, ...)
 
     This function uses the `read_prc_csv` function in this module to read the
     price information for each ticker in `tickers`.
@@ -105,7 +105,7 @@ def mk_prc_df(tickers, prc_col='adj_close'):
     prc_col: str, optional
         String with the name of the column we will use to compute returns. The
         column name must conform with the format in the `standardise_colnames`
-        function defined in the config.py module.  
+        function defined in the config.py module.
         Defaults to 'adj_close'.
 
     Returns
@@ -113,15 +113,15 @@ def mk_prc_df(tickers, prc_col='adj_close'):
     df
         A Pandas data frame containing the `prc_col` price for each stock
         in the `tickers` list:
-        
+
         - df.index: DatetimeIndex with dates. The labels in this index must
           include all dates for which there is at least one valid price quote
-          for one ticker in `tickers`.  
+          for one ticker in `tickers`.
 
 
         - df.columns: each column label will contain the ticker code (in lower
           case). The number of columns in this data frame must correspond to
-          the number of tickers in the ``tickers` parameter. 
+          the number of tickers in the ``tickers` parameter.
 
     Notes
     -----
@@ -136,7 +136,7 @@ def mk_prc_df(tickers, prc_col='adj_close'):
     create).
 
     Example 1: Suppose there are two tickers in `tickers`, "tic1" and "tic2".
-    Suppose the following information is available for each ticker: 
+    Suppose the following information is available for each ticker:
 
       tic1:
           | <date col> | <prc_col> |
@@ -155,12 +155,12 @@ def mk_prc_df(tickers, prc_col='adj_close'):
           |------------+------+------|
           | 2020-01-02 | 1.0  | NaN  |
           | 2020-01-10 | NaN  | 2.0  |
-    
+
     The DatetimeIndex will include objects representing the dates 2020-01-02
     and 2020-01-10. The reason 2020-03-10 is not included is because there is
     no price information (for any ticker in `tickers`) on that date.
 
-    Example 2:    
+    Example 2:
 
         >> tickers = ['AAPL', 'TSLA']
         >> prc_df = mk_prc_df(tickers, prc_col='adj_close')
@@ -191,15 +191,15 @@ def mk_prc_df(tickers, prc_col='adj_close'):
 
 
 
-# ---------------------------------------------------------------------------- 
+# ----------------------------------------------------------------------------
 # Part 5: Complete the mk_ret_df function
-# ---------------------------------------------------------------------------- 
+# ----------------------------------------------------------------------------
 def mk_ret_df(prc_df):
-    """ Creates a data frame containing returns for both individuals stock AND 
-    a proxy for the market portfolio, given a data frame with stock prices, `prc_df`. 
+    """ Creates a data frame containing returns for both individuals stock AND
+    a proxy for the market portfolio, given a data frame with stock prices, `prc_df`.
 
     This function will compute returns for each column of `prc_df` and also
-    include the market returns in a column called "mkt".  
+    include the market returns in a column called "mkt".
 
     Market returns need to be obtained from the "mkt" column in the CSV file
     "ff_daily_csv". The location of this CSV file is given by the variable
@@ -224,7 +224,7 @@ def mk_ret_df(prc_df):
         returns for the proxy of the overall market portfolio ("mkt").
 
         - df.index: DatetimeIndex with dates. These dates should include all
-          dates in `prc_df` which are also present in the CSV file FF_CSV. 
+          dates in `prc_df` which are also present in the CSV file FF_CSV.
 
         - df.columns: Includes all the column labels in `prc_df.columns` AND
           the column label for market returns, "mkt".
@@ -232,7 +232,7 @@ def mk_ret_df(prc_df):
     Examples
     --------
     Note: The examples below are for illustration purposes. Your ticker/sample
-    period may be different. 
+    period may be different.
 
         >> tickers = ['AAPL', 'TSLA']
         >> prc_df = mk_prc_df(tickers, prc_col='adj_close')
@@ -266,9 +266,9 @@ def mk_ret_df(prc_df):
 
 
 
-# ---------------------------------------------------------------------------- 
+# ----------------------------------------------------------------------------
 # Part 6: Complete the mk_aret_df function
-# ---------------------------------------------------------------------------- 
+# ----------------------------------------------------------------------------
 def mk_aret_df(ret_df):
     """ Creates a data frame with abnormal returns for each stock in `ret_df`,
     where abnormal returns are computed by subtracting the market returns from
@@ -289,7 +289,7 @@ def mk_aret_df(ret_df):
         A data frame with abnormal returns for each individual stock in
         `ret_df`. Abnormal returns are computed by subtracting the market
         returns (column "mkt" in `ret_df`)  from each individual stock's
-        returns. 
+        returns.
 
         - df.index: DatetimeIndex with dates. These dates should include all
           dates in the `ret_df` data frame.
@@ -300,7 +300,7 @@ def mk_aret_df(ret_df):
     Examples
     --------
     Note: The examples below are for illustration purposes. Your ticker/sample
-    period may be different. 
+    period may be different.
 
         >> tickers = ['AAPL', 'TSLA']
         >> prc_df = mk_prc_df(tickers, prc_col='adj_close')
@@ -327,15 +327,28 @@ def mk_aret_df(ret_df):
          1   tsla    129 non-null    float64
         dtypes: float64(2)
         memory usage: 5.9 KB
-    
+
     """
     # <COMPLETE THIS PART>
+    # Create a copy of ret_df to avoid modifying the original DataFrame
+    aret_df = ret_df.copy()
+
+    # Loop through each column (stock) in the DataFrame, except the 'mkt' column
+    for col in aret_df.columns:
+        if col != 'mkt':
+            # Subtract the market return from the stock return
+            aret_df[col] = aret_df[col] - aret_df['mkt']
+
+    # Drop the 'mkt' column as it's no longer needed
+    aret_df.drop(columns=['mkt'], inplace=True)
+
+    return aret_df
 
 
 
-# ---------------------------------------------------------------------------- 
+# ----------------------------------------------------------------------------
 # Part 7: Auxiliary functions
-# ---------------------------------------------------------------------------- 
+# ----------------------------------------------------------------------------
 def get_avg(df, col, year):
     """ Returns the average value of a column for a give year.
 
@@ -344,7 +357,7 @@ def get_avg(df, col, year):
     The data frame `df` must have a DatetimeIndex index.
 
     Missing values will not be included in the calculation.
-    
+
     Parameters
     ----------
     df : data frame
@@ -387,7 +400,6 @@ def get_avg(df, col, year):
     df_year = df[df.index.year == year]
     # Drop row with NAN value
     values = df_year[col].dropna()
-
     # Calculate the average
     return values.mean()
 
@@ -435,6 +447,9 @@ def get_ew_rets(df, tickers):
 
     """
     #<COMPLETE THIS PART>
+    # Get average value
+    df_rets = df.loc[:,tickers].mean(axis=1)
+    return df_rets
 
 
 
@@ -461,7 +476,7 @@ def get_ann_ret(ser, start, end):
     -------
     scalar
         A scalar with the ANNUALISED return for the period starting in `start`
-        and ending in `end`, ignoring missing observations. 
+        and ending in `end`, ignoring missing observations.
 
     Notes
     -----
@@ -469,7 +484,7 @@ def get_ann_ret(ser, start, end):
 
         (tot_ret)**(252/N) - 1
 
-    where 
+    where
 
     - tot_ret represents the total gross return over the period, i.e., the
       product (1+r1)*...*(1+rN), where r1, ..., rN represents daily returns
@@ -481,36 +496,41 @@ def get_ann_ret(ser, start, end):
 
     """
     # <COMPLETE THIS PART>
+    tot_ser = ser.loc[start:end].dropna()
+    tot_ret = (1+tot_ser).prod()
+
+    N = len(tot_ser)
+    return (tot_ret**(252/N))-1
 
 
 # ----------------------------------------------------------------------------
 # Part 8: Answer the following questions
 # ----------------------------------------------------------------------------
 # NOTES:
-# 
-# - You can create a separate module (you can call it main.py if you want) 
-#   and then use the functions defined above to answer the questions below. 
+#
+# - You can create a separate module (you can call it main.py if you want)
+#   and then use the functions defined above to answer the questions below.
 #   YOU DO NOT NEED TO SUBMIT THIS OTHER MODULE YOU CREATE. THE ONLY MODULE
 #   YOU NEED TO SUBMIT IS THIS ONE, zid_project2.py.
 #
-# - Do not create any other functions inside this module. 
-# 
+# - Do not create any other functions inside this module.
+#
 # - For this part of the project, only the answers provided below will be
 #   marked. You are free to create any function you want (IN A SEPARATE
 #   MODULE).
 #
 # - All your answers should be strings. If they represent a number, include 4
 #   decimal places.
-# 
+#
 # - Here is an example of how to answer the questions below. Consider the
 #   following question:
 #
 #   Q0: Which ticker included in config.TICMAP starts with the letter "C"?
 #   Q0_answer = '?'
-#  
+#
 #   You should replace the '?' with the correct answer:
 #   Q0_answer = 'CSCO'
-#  
+#
 
 # Q1: Which stock in your sample has the highest average daily return for the
 #     year 2020 (ignoring missing values)? The sample should include all tickers
@@ -533,12 +553,12 @@ Q3_ANSWER = '?'
 # the first question Q1 above)? Abnormal returns are calculated by subtracting
 # the market return ("mkt") from the individual stock return.
 Q4_ANSWER = '?'
-    
+
 
 
 
 # ----------------------------------------------------------------------------
-#   Test functions 
+#   Test functions
 # ----------------------------------------------------------------------------
 
 # This is an auxiliary function, please do not modify
@@ -576,7 +596,7 @@ def _test_print(obj, msg=None):
 # This is an auxiliary function, please do not modify
 def _test_cfg():
     """ This test function will help you determine if the config.py module inside
-    the project2 package was successfully imported as `cfg` and if the files 
+    the project2 package was successfully imported as `cfg` and if the files
     are where they should be:
 
     toolkit/
@@ -618,7 +638,7 @@ def _test_mk_prc_df():
 def _test_mk_ret_df():
     """ Test function for the `mk_ret_df` function
 
-    1. Creates a data frame `prc_df` with prices: 
+    1. Creates a data frame `prc_df` with prices:
 
         | Date       | aapl   | tsla   |
         |------------+--------+--------|
@@ -643,26 +663,26 @@ def _test_mk_ret_df():
     # Test data frame
     prc_df = pd.DataFrame({
         'aapl': [
-            121.09, 
-            121.19, 
-            120.70, 
+            121.09,
+            121.19,
+            120.70,
             119.01,
-            124.40, 
+            124.40,
             ],
         'tsla': [
-            446.64, 
-            461.29, 
-            448.88, 
+            446.64,
+            461.29,
+            448.88,
             439.67,
-            None, 
+            None,
             ],
         },
         index=pd.to_datetime([
-            '2020-10-13', 
-            '2020-10-14', 
-            '2020-10-15', 
+            '2020-10-13',
+            '2020-10-14',
+            '2020-10-15',
             '2020-10-16',
-            '2020-10-12', 
+            '2020-10-12',
             ],
         ))
     msg = "The input data frame `prc_df` is:"
@@ -676,7 +696,7 @@ def _test_mk_ret_df():
 def _test_mk_aret_df():
     """ Test function for the `mk_aret_df` function
 
-    1. Creates a data frame `ret_df` with returns: 
+    1. Creates a data frame `ret_df` with returns:
 
         |            | aapl      | tsla      | mkt     |
         |------------+-----------+-----------+---------|
@@ -699,21 +719,21 @@ def _test_mk_aret_df():
 
     """
     idx = pd.to_datetime([
-        '2020-10-12', 
-        '2020-10-13', 
-        '2020-10-14', 
-        '2020-10-15', 
-        '2020-10-16', 
+        '2020-10-12',
+        '2020-10-13',
+        '2020-10-14',
+        '2020-10-15',
+        '2020-10-16',
         ])
     aapl = [
-        None, 
-        -0.026608, 
-         0.000826, 
-        -0.004043, 
-        -0.014002, 
+        None,
+        -0.026608,
+         0.000826,
+        -0.004043,
+        -0.014002,
         ]
     tsla = [
-        None, 
+        None,
         None,
          0.032800,
         -0.026903,
@@ -745,7 +765,7 @@ def _test_get_avg():
         })
     df = pd.DataFrame({'some_tic': prc})
     df.index = pd.to_datetime(df.index)
-    
+
     msg = 'This is the test data frame `df`:'
     _test_print(df, msg)
 
@@ -756,7 +776,7 @@ def _test_get_avg():
             f"The value of `res` is {res}",
             ]
     _test_print('\n'.join(to_print))
-    
+
 
 def _test_get_ew_rets():
     """ Test function for `get_ew_rets`
@@ -769,7 +789,7 @@ def _test_get_ew_rets():
         | 2019-01-02 | 2.0  | NaN  | 99   |
         | 2020-10-02 | 1.0  | 2.0  | 99   |
         | 2020-11-12 | 2.0  | 1.0  | 99   |
-    
+
     2. Compute the equal-weighted average between tic1 and tic2. For the
     example above, `get_ew_rets(df, ['tic1', 'tic2'])` gives a series with
     the following information:
@@ -809,7 +829,7 @@ def _mk_test_ser():
     -----
 
     The idea is to work backwards -- figure out what the result should be and
-    then construct a test series that will give you this result. 
+    then construct a test series that will give you this result.
 
     For instance, assume that you have held a stock for 400 trading days and
     the total return over this period is 1.5 (so 50% over 400 trading days).
@@ -818,7 +838,7 @@ def _mk_test_ser():
         tot_ret ** (252/N) - 1 = 1.5 ** (252/400) - 1 = 0.2910
 
     This should be the result of get_ann_ret if the series contains 400 daily
-    returns between some start and end dates with a cumulative return of 50%. 
+    returns between some start and end dates with a cumulative return of 50%.
 
     One possibility is to create a test series with 400 copies of daily_yield,
     where daily_yield is:
@@ -856,7 +876,7 @@ def _mk_test_ser():
     # So, `get_ann_ret(ser, start, end) --> exp_res`
     # We have the `ser` and `start`. What about `end`?
     end = ser.index.max().strftime('%Y-%m-%d')
-    
+
     to_print = [
             f"Given the parameters:",
             f"   - tot_ret is {tot_ret}",
@@ -956,10 +976,10 @@ if __name__ == "__main__":
     #_test_read_prc_csv()
     #_test_mk_prc_df()
     #_test_mk_ret_df()
-    #_test_mk_aret_df()
+    _test_mk_aret_df()
     #_test_get_avg()
     #_test_get_ew_rets()
-    #_test_get_ann_ret()
+    _test_get_ann_ret()
 
 
 
