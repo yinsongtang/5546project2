@@ -330,16 +330,12 @@ def mk_aret_df(ret_df):
 
     """
     # <COMPLETE THIS PART>
-    # Create a copy of ret_df to avoid modifying the original DataFrame
     aret_df = ret_df.copy()
 
-    # Loop through each column (stock) in the DataFrame, except the 'mkt' column
     for col in aret_df.columns:
         if col != 'mkt':
-            # Subtract the market return from the stock return
             aret_df[col] = aret_df[col] - aret_df['mkt']
 
-    # Drop the 'mkt' column as it's no longer needed
     aret_df.drop(columns=['mkt'], inplace=True)
 
     return aret_df
@@ -496,9 +492,9 @@ def get_ann_ret(ser, start, end):
 
     """
     # <COMPLETE THIS PART>
+    # filter with nan value and indicate period
     tot_ser = ser.loc[start:end].dropna()
     tot_ret = (1+tot_ser).prod()
-
     N = len(tot_ser)
     return (tot_ret**(252/N))-1
 
