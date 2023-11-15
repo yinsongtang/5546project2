@@ -187,7 +187,13 @@ def mk_prc_df(tickers, prc_col='adj_close'):
 
     """
     # <COMPLETE THIS PART>
+    prc_df = pd.DataFrame()
 
+    for ticker in tickers:
+        prc_data = read_prc_csv(ticker)[prc_col]
+        prc_df[ticker] = prc_data
+
+    return prc_df
 
 
 
